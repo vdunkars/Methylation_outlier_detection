@@ -75,11 +75,6 @@ IQR_MAX_THRESHOLD = 0.25   # suppress calls if the background IQR exceeds this v
 ABS_DEV_THRESHOLD_ALLELE   = 0.40  # used for allele-level (phased) analysis
 ABS_DEV_THRESHOLD_COMBINED = 0.25  # used for combined (diploid) analysis
 
-
-# ---------------------------------------------------------------------------
-# Data loading
-# ---------------------------------------------------------------------------
-
 def get_cpg_islands(cpg_file):
     """
     Load CpG island regions from a tab-delimited file.
@@ -126,10 +121,6 @@ def get_sample_sex(sex_file):
     return males, females
 
 
-# ---------------------------------------------------------------------------
-# Region splitting
-# ---------------------------------------------------------------------------
-
 def split_cpg_by_chrom(cpg_df):
     """
     Partition CpG islands into autosomal, chrX, and chrY subsets.
@@ -146,11 +137,7 @@ def split_cpg_by_chrom(cpg_df):
     y_cpg     = cpg_df[cpg_df["chrom"] == "chrY"]
     return autosomal, x_cpg, y_cpg
 
-
-# ---------------------------------------------------------------------------
-# Window construction
-# ---------------------------------------------------------------------------
-
+  
 def build_windows_df(cpg_df, window_size=WINDOW_SIZE_BP, step=WINDOW_STEP_BP):
     """
     Generate sliding windows of fixed bp size within each CpG island.
@@ -200,10 +187,6 @@ def build_windows_df(cpg_df, window_size=WINDOW_SIZE_BP, step=WINDOW_STEP_BP):
     )
     return windows_df
 
-
-# ---------------------------------------------------------------------------
-# File I/O and coverage aggregation
-# ---------------------------------------------------------------------------
 
 def file_to_tabix(filepath):
     """
@@ -352,10 +335,6 @@ def calc_meth_freq(sample_tabix, windows_df):
     return meth_freq, stats
 
 
-# ---------------------------------------------------------------------------
-# Background statistics
-# ---------------------------------------------------------------------------
-
 def compute_background_stats(background_df):
     """
     Compute cohort-level summary statistics across sample columns.
@@ -378,10 +357,6 @@ def compute_background_stats(background_df):
     background_df["iqr"] = background_df["q75"] - background_df["q25"]
     return background_df
 
-
-# ---------------------------------------------------------------------------
-# Sample processing
-# ---------------------------------------------------------------------------
 
 def process_files_separately(directory, windows_df, samples=None):
     """
@@ -521,10 +496,6 @@ def process_files_together(directory, windows_df, raw_cache, samples=None):
         background_df = pd.concat([background_df] + sample_series, axis=1)
     return compute_background_stats(background_df), sample_cache
 
-
-# ---------------------------------------------------------------------------
-# Statistical testing
-# ---------------------------------------------------------------------------
 
 def binom_test(meth_reads, total_reads, expected_p):
     """
@@ -737,10 +708,6 @@ def test_sample_meth(sample_cache, background_df, abs_threshold=None):
     ].copy()
 
 
-# ---------------------------------------------------------------------------
-# Island-level summarisation
-# ---------------------------------------------------------------------------
-
 def collect_all_tested_windows(sample_cache, background_df):
     """
     Collect all windows with coverage across every sample.
@@ -848,10 +815,6 @@ def summarise_to_islands(outlier_windows_df, windows_df, all_windows_tested_df):
     return results_df[keep].sort_values("outlier_fraction", ascending=False)
 
 
-# ---------------------------------------------------------------------------
-# Utilities
-# ---------------------------------------------------------------------------
-
 def combine_results(result_list):
     """
     Concatenate a list of result DataFrames, ignoring empty ones.
@@ -875,10 +838,6 @@ def write_out(allele_results, combined_results):
         "combined_results.txt", sep="\t", index=False
     )
 
-
-# ---------------------------------------------------------------------------
-# Main pipeline
-# ---------------------------------------------------------------------------
 
 def main():
     # --- Load regions and sex annotations ---
