@@ -1,6 +1,4 @@
 """
-methylation_outlier_detection.py
-=================================
 Identifies aberrant DNA methylation at CpG islands from phased long-read sequencing data.
 
 Overview
