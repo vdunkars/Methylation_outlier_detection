@@ -1,3 +1,5 @@
+"""Identifies single nucleotide variants associated with methylation outliers"""
+
 import pandas as pd
 from pysam import VariantFile
 import csv
