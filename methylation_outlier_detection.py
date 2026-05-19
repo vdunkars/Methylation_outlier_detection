@@ -18,17 +18,6 @@ For each CpG island in the candidate file the script:
 Sex chromosomes are processed separately to avoid distortion of the background
 caused by X-inactivation and the absence of chrY in females.
 
-Input
------
-candidate_file : tab-separated, columns: chrom, start, end
-directory      : directory containing phased DSS files
-                 (*.phase_0.tbx.DSS.txt.gz / *.phase_1.tbx.DSS.txt.gz)
-sex_file       : tab-separated, columns: sample_id, sex (M/F)
-
-Output
-------
-haplotype_results.txt   – allele-level island outliers
-combined_results.txt – combined (diploid) island outliers
 """
 
 import io
